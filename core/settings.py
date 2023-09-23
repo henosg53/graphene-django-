@@ -39,7 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'books',
     'quiz',
+    'users',
     'graphene_django',
+    'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
+    'graphql_auth',
+    'django_filters',
 ]
 
 
@@ -85,11 +89,29 @@ DATABASES = {
     }
 }
 
-# SCHEMA = {    
-#     'SCHEMA': 'core.schema.schema', 
+GRAPHENE     = {    
+    'SCHEMA': 'core.schema.schema', 
+    'MIDDLEWARE':[
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
 
-# }
+}
 
+AUTHENTICATION_BACKENDS = [
+    # 'graphql_jwt.backends.JSONWebTokenBackend',
+    'graphql_auth.backends.GraphQLAuthBackend',
+    'django.contrib.auth.backends.ModelBackend'
+]
+
+GRAPHQL_JWT = {
+    "JWT_ALLOW_ANY_CLASSES":[
+        "graphql_auth.mutations.Register",
+    ],
+    "JWT_VERIFY_EXPIRATION": True,
+    "JWT_LONG_RUNNING_REFRESH_TOKEN": True
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Password validation
@@ -130,7 +152,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+AUTH_USER_MODEL = 'users.ExtendUser'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
