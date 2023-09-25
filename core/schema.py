@@ -1,9 +1,12 @@
 import graphene
 from graphql_auth import mutations
 from graphql_auth.schema import UserQuery,MeQuery
+# from quiz.schema import schema as quiz_schema
+from items.schema import schema as item_schema
 
 
-class Query(UserQuery, MeQuery, graphene.ObjectType):
+class Query(UserQuery, MeQuery, item_schema.Query, graphene.ObjectType):
+    
     pass
 
 class AuthMutation(graphene.ObjectType):
@@ -14,7 +17,7 @@ class AuthMutation(graphene.ObjectType):
     resend_activation_mail = mutations.ResendActivationEmail.Field()
     forgotten_password = mutations.SendPasswordResetEmail.Field()
 
-class Mutation(AuthMutation, graphene.ObjectType):
+class Mutation(AuthMutation, item_schema.Mutation, graphene.ObjectType):
     pass
 
 

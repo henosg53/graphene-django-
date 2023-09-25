@@ -40,11 +40,7 @@ class Query(graphene.ObjectType):
         return Question.objects.get(pk=id)
     def resolve_all_answers(root, info, id):
         return Answer.objects.filter(question=id)
-
-
-    def resolve_quiz(root,info):
-        return f"This is the first question"
-
+    
 class AddCategoryMutation(graphene.Mutation):
     class Arguments:
         name = graphene.String(required=True)

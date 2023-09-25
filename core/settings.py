@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'books',
     'quiz',
     'users',
+    'items',
     'graphene_django',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
     'graphql_auth',
